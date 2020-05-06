@@ -21,9 +21,7 @@ extension UIView {
             topInset = insets.top
             bottomInset = insets.bottom
         }
-        
         translatesAutoresizingMaskIntoConstraints = false
-        
         if let top = top {
             self.topAnchor.constraint(equalTo: top, constant: paddingTop+topInset).isActive = true
         }

@@ -9,7 +9,6 @@
 import UIKit
 
 class FactsViewController: UITableViewController {
-    
 
  //MARK: - View lifecycle method
  override func viewDidLoad() {
@@ -32,9 +31,6 @@ class FactsViewController: UITableViewController {
          tableView.register(FactsTableViewCell.self, forCellReuseIdentifier: kCellIdentifier)
      }
  
- 
-
-     
  //MARK: - UITableview Delegate and DataSource Methods
  
  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
