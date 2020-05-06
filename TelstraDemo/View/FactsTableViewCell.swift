@@ -11,7 +11,6 @@ import UIKit
 class FactsTableViewCell: UITableViewCell {
 
     //MARK: - Outlets
-
     let titleImageView:UIImageView = {
         let img = UIImageView()
         img.image = defaultImage
@@ -54,11 +53,5 @@ class FactsTableViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
 
-    //MARK: - Configure cell UI
-    func configureTableViewCell() {
-        
-    }
-    
    
-
 }
