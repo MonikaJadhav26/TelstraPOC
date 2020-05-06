@@ -11,8 +11,8 @@ import UIKit
 class FactsViewController: UITableViewController {
    
     // MARK: - Variables
-    @IBOutlet var filmTableView: UITableView!
     var factsViewModel = FactsViewModel()
+    var activityIndicator = UIActivityIndicatorView()
     
     //MARK: - View lifecycle method
     override func viewDidLoad() {
@@ -24,7 +24,16 @@ class FactsViewController: UITableViewController {
     
     //MARK: - Method for UI setup
     func setUpUI() {
+        self.activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+        self.activityIndicator.color = .gray
+        self.activityIndicator.frame = .zero
+        let screenSize: CGRect = UIScreen.main.bounds
+        self.activityIndicator.center = CGPoint (x: screenSize.width/2 , y: screenSize.height/2)
+        self.activityIndicator.hidesWhenStopped = true
+        tableView.addSubview(self.activityIndicator)
         view.backgroundColor = .white
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
         tableView.refreshControl = refreshControl
         tableView.separatorStyle = .none
         tableView.dataSource = self
@@ -38,11 +47,21 @@ class FactsViewController: UITableViewController {
     
     //MARK: - Call to get all data server
     func getFactsDataFromURL() {
+        activityIndicator.startAnimating()
         factsViewModel.fetchFactsData() {
             DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+                self.title = self.factsViewModel.getTitleForView()
                 self.tableView.reloadData()
             }
         }
+    }
+    
+    //MARK: - Pull to refresh method
+    @objc func pullToRefresh(refreshControl: UIRefreshControl) {
+        tableView.reloadData()
+        getFactsDataFromURL()
+        refreshControl.endRefreshing()
     }
     
     //MARK: - UITableview Delegate and DataSource Methods

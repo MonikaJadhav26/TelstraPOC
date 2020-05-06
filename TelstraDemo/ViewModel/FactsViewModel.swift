@@ -22,7 +22,7 @@ class FactsViewModel : NSObject {
         })
     }
     
-    func getTitleForView(indexPath: IndexPath) -> String {
+    func getTitleForView() -> String {
         return titleForView
     }
     
