@@ -39,13 +39,18 @@ class FactsTableViewCell: UITableViewCell {
     
     //MARK: - Initialization
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+       
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addSubview(titleImageView)
         addSubview(titleLabel)
         addSubview(descriptionLabel)
+        
         titleImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: CGFloat(kTopBottomRightLeftPaddingConstant), paddingLeft: CGFloat(kTopBottomRightLeftPaddingConstant), paddingBottom: CGFloat(kTopBottomRightLeftPaddingConstant), paddingRight: 0, width: CGFloat(imageViewHeightWidthConstant), height: CGFloat(imageViewHeightWidthConstant), enableInsets: false)
+        
         titleLabel.anchor(top: topAnchor, left: titleImageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: CGFloat(kTopBottomRightLeftPaddingConstant), paddingLeft: CGFloat(kTopBottomRightLeftPaddingConstant), paddingBottom: CGFloat(kTopBottomRightLeftPaddingConstant), paddingRight: CGFloat(kTopBottomRightLeftPaddingConstant), width: frame.size.width, height: 0, enableInsets: false)
+        
         descriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: CGFloat(labelHeightConstant)).isActive = true
+        
         descriptionLabel.anchor(top: titleLabel.bottomAnchor, left: titleImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: CGFloat(kTopBottomRightLeftPaddingConstant), paddingLeft: CGFloat(kTopBottomRightLeftPaddingConstant), paddingBottom: CGFloat(kTopBottomRightLeftPaddingConstant), paddingRight: CGFloat(kTopBottomRightLeftPaddingConstant), width: frame.size.width, height: 0, enableInsets: false)
     }
     

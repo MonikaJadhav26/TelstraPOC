@@ -79,11 +79,8 @@ extension FactsViewController{
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifier, for: indexPath) as! FactsTableViewCell
-        
         cell.titleLabel.text = factsViewModel.getCellTitleText(indexPath: indexPath)
-        
         cell.descriptionLabel.text = factsViewModel.getCellDescription(indexPath: indexPath)
-        
         cell.titleImageView.downloaded(from: factsViewModel.getImageURL(indexPath: indexPath))
         
         return cell
