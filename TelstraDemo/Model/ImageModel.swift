@@ -14,4 +14,11 @@ struct ImageModel: Decodable {
     let rows: [Row]
 }
 
+struct Row: Decodable {
+    let title: String?
+    var description: String?
+    let imageHref: String?
+}
+
+
 

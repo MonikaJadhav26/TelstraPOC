@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension UIImageView {
-   
+    
     func downloaded(from link: String) {
         let imageCache = NSCache<NSString, UIImage>()
         self.image = defaultImage

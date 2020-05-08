@@ -9,7 +9,7 @@
 import UIKit
 
 class FactsTableViewCell: UITableViewCell {
-
+    
     //MARK: - Outlets
     let titleImageView:UIImageView = {
         let img = UIImageView()
@@ -22,7 +22,7 @@ class FactsTableViewCell: UITableViewCell {
     let titleLabel:UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: CGFloat(boldFontConstant))
-        label.textColor = .black
+        label.textColor = cellLabelTextColor
         label.numberOfLines = 0
         return label
     }()
@@ -30,14 +30,14 @@ class FactsTableViewCell: UITableViewCell {
     let descriptionLabel:UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: CGFloat(regularFontConstant))
-        label.textColor =  .black
+        label.textColor =  cellLabelTextColor
         label.lineBreakMode = NSLineBreakMode.byTruncatingTail
         label.textAlignment = .left
         label.numberOfLines = 0
         return label
     }()
-
-     //MARK: - Initialization
+    
+    //MARK: - Initialization
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addSubview(titleImageView)
@@ -52,6 +52,6 @@ class FactsTableViewCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-
-   
+    
+    
 }

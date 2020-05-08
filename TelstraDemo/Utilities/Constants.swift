@@ -16,3 +16,6 @@ let labelHeightConstant = 20
 let boldFontConstant = 15
 let regularFontConstant = 12
 let defaultImage = UIImage(named: "default")
+let backgroundViewColor = UIColor(named: "backViewColour")
+let cellLabelTextColor = UIColor(named: "textColour")
+
