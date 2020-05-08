@@ -66,28 +66,32 @@ class FactsViewController: UITableViewController {
         refreshControl.endRefreshing()
     }
     
-    //MARK: - UITableview Delegate and DataSource Methods
-
-        override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return factsViewModel.getNumberOfFacts(section: section)
-        }
-        
-        override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifier, for: indexPath) as! FactsTableViewCell
-            
-            cell.titleLabel.text = factsViewModel.getCellTitleText(indexPath: indexPath)
-            
-            cell.descriptionLabel.text = factsViewModel.getCellDescription(indexPath: indexPath)
-            
-            cell.titleImageView.downloaded(from: factsViewModel.getImageURL(indexPath: indexPath))
-            
-            return cell
-        }
-        
-        override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            return UITableView.automaticDimension
-        }
-    
 }
+
+//MARK: - UITableview Delegate and DataSource Methods
+
+extension FactsViewController{
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return factsViewModel.getNumberOfFacts(section: section)
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifier, for: indexPath) as! FactsTableViewCell
+        
+        cell.titleLabel.text = factsViewModel.getCellTitleText(indexPath: indexPath)
+        
+        cell.descriptionLabel.text = factsViewModel.getCellDescription(indexPath: indexPath)
+        
+        cell.titleImageView.downloaded(from: factsViewModel.getImageURL(indexPath: indexPath))
+        
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+}
+
 
