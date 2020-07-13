@@ -25,23 +25,23 @@ class APICall : NSObject {
     
     
     //MARK: - API CLIENT
-       
-       private func getRequest<T: Decodable>(requestUrl: URL, resultType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
-           URLSession.shared.dataTask(with: requestUrl) { (data, response, error) in
-               if let err = error {
-                   completion(.failure(err))
-                   print(err.localizedDescription)
-               } else {
-                   guard let data = data else { return }
-                   let jsonString = String(decoding: data, as: UTF8.self)
-                   do {
-                       let results = try JSONDecoder().decode(T.self, from: jsonString.data(using: .utf8)!)
-                       completion(.success(results))
-                   } catch {
-                       print(error.localizedDescription)
-                       completion(.failure(error))
-                   }
-               }
-               }.resume()
-       }
+    
+    private func getRequest<T: Decodable>(requestUrl: URL, resultType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+        URLSession.shared.dataTask(with: requestUrl) { (data, response, error) in
+            if let err = error {
+                completion(.failure(err))
+                print(err.localizedDescription)
+            } else {
+                guard let data = data else { return }
+                let jsonString = String(decoding: data, as: UTF8.self)
+                do {
+                    let results = try JSONDecoder().decode(T.self, from: jsonString.data(using: .utf8)!)
+                    completion(.success(results))
+                } catch {
+                    print(error.localizedDescription)
+                    completion(.failure(error))
+                }
+            }
+        }.resume()
+    }
 }

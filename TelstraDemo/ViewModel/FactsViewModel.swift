@@ -11,13 +11,13 @@ import Foundation
 class FactsViewModel : NSObject {
     
     //MARK: - Parameters
-
+    
     var apiCallObject: APICall = APICall()
     var factsData : [Row] = [Row]()
     var titleForView = String()
     
     //MARK: - API Call
-   
+    
     func fetchFactsData(completion: @escaping (Result<Bool, Error>) -> Void) {
         apiCallObject.getImages { (result) in
             DispatchQueue.main.async {

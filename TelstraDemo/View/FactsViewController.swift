@@ -46,7 +46,7 @@ class FactsViewController: UITableViewController {
         tableView.register(FactsTableViewCell.self, forCellReuseIdentifier: Constants.kCellIdentifier)
         
         tableView.accessibilityIdentifier = Constants.imageTableViewIndentifier
-
+        
     }
     
     //MARK: - Call to get all data server
@@ -55,11 +55,11 @@ class FactsViewController: UITableViewController {
         factsViewModel.fetchFactsData { result in
             self.activityIndicator.stopAnimating()
             DispatchQueue.main.async {
-            switch(result) {
-            case .success:
-                self.title = self.factsViewModel.getTitleForView()
-                self.tableView.reloadData()
-            case .failure(let error):
+                switch(result) {
+                case .success:
+                    self.title = self.factsViewModel.getTitleForView()
+                    self.tableView.reloadData()
+                case .failure(let error):
                     self.showAlert(message: error.localizedDescription, action: UIAlertAction(title: Constants.ok, style: .default, handler: nil))
                 }
             }

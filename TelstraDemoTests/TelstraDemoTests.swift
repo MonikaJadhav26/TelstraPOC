@@ -10,9 +10,9 @@ import XCTest
 @testable import TelstraDemo
 
 class TelstraDemoTests: XCTestCase {
-
+    
     var factsViewModel = FactsViewModel()
-
+    
     override func setUp() {
     }
     
