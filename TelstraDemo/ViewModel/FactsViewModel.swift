@@ -10,17 +10,30 @@ import Foundation
 
 class FactsViewModel : NSObject {
     
+    //MARK: - Parameters
+
     var apiCallObject: APICall = APICall()
     var factsData : [Row] = [Row]()
     var titleForView = String()
     
-    func fetchFactsData(completion: @escaping () -> ()) {
-        apiCallObject.getImages(completion: {(imagesDictionary, isSucces) in
-            self.factsData = imagesDictionary?.rows ?? []
-            self.titleForView = imagesDictionary?.title ?? ""
-            completion()
-        })
+    //MARK: - API Call
+   
+    func fetchFactsData(completion: @escaping (Result<Bool, Error>) -> Void) {
+        apiCallObject.getImages { (result) in
+            DispatchQueue.main.async {
+                switch(result) {
+                case .success(let result):
+                    self.factsData = result.rows
+                    self.titleForView = result.title
+                    completion(.success(true))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        }
     }
+    
+    //MARK: - Private Methods
     
     func getTitleForView() -> String {
         return titleForView

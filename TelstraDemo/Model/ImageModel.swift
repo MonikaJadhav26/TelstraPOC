@@ -9,11 +9,13 @@
 
 import Foundation
 
+// MARK: - ImageModel
 struct ImageModel: Decodable {
     let title: String
     let rows: [Row]
 }
 
+// MARK: - Row
 struct Row: Decodable {
     let title: String?
     var description: String?

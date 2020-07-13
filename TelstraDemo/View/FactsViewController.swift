@@ -18,7 +18,6 @@ class FactsViewController: UITableViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         setUpUI()
         getFactsDataFromURL()
     }
@@ -30,7 +29,7 @@ class FactsViewController: UITableViewController {
         activityIndicator.center =  CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY)
         activityIndicator.hidesWhenStopped = true
         tableView.addSubview(activityIndicator)
-        view.backgroundColor = backgroundViewColor
+        view.backgroundColor = Constants.backgroundViewColor
         
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
@@ -40,23 +39,37 @@ class FactsViewController: UITableViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.backgroundColor = backgroundViewColor
+        tableView.backgroundColor = Constants.backgroundViewColor
         self.tableView.tableFooterView = UIView()
         
         self.navigationController?.navigationBar.barTintColor = UIColor.red
-        tableView.register(FactsTableViewCell.self, forCellReuseIdentifier: kCellIdentifier)
+        tableView.register(FactsTableViewCell.self, forCellReuseIdentifier: Constants.kCellIdentifier)
+        
+        tableView.accessibilityIdentifier = Constants.imageTableViewIndentifier
+
     }
     
     //MARK: - Call to get all data server
     func getFactsDataFromURL() {
         activityIndicator.startAnimating()
-        factsViewModel.fetchFactsData() {
+        factsViewModel.fetchFactsData { result in
+            self.activityIndicator.stopAnimating()
             DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
+            switch(result) {
+            case .success:
                 self.title = self.factsViewModel.getTitleForView()
                 self.tableView.reloadData()
+            case .failure(let error):
+                    self.showAlert(message: error.localizedDescription, action: UIAlertAction(title: Constants.ok, style: .default, handler: nil))
+                }
             }
         }
+    }
+    
+    func showAlert(message: String, action: UIAlertAction) {
+        let alert = UIAlertController(title: Constants.errorTitle, message: message, preferredStyle: .alert)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
     }
     
     //MARK: - Pull to refresh method
@@ -78,7 +91,8 @@ extension FactsViewController{
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifier, for: indexPath) as! FactsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.kCellIdentifier, for: indexPath) as! FactsTableViewCell
+        cell.accessibilityIdentifier = "CellIndentifier_\(indexPath.row)"
         cell.titleLabel.text = factsViewModel.getCellTitleText(indexPath: indexPath)
         cell.descriptionLabel.text = factsViewModel.getCellDescription(indexPath: indexPath)
         cell.titleImageView.downloaded(from: factsViewModel.getImageURL(indexPath: indexPath))

@@ -10,34 +10,45 @@ import XCTest
 
 class TelstraDemoUITests: XCTestCase {
 
+    let app = XCUIApplication()
+
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        app.launch()
     }
 
+    func testImagesTableViewCellIsExist() {
+           let imagesTableView = app.tables.matching(identifier: Constants.imageTableViewIndentifier)
+           let firstCell = imagesTableView.cells.element(matching: .cell, identifier: "CellIndentifier_0")
+           let existencePredicate = NSPredicate(format: "exists == 1")
+           let expectationEval = expectation(for: existencePredicate, evaluatedWith: firstCell, handler: nil)
+           let mobWaiter = XCTWaiter.wait(for: [expectationEval], timeout: 5)
+           XCTAssert(XCTWaiter.Result.completed == mobWaiter, "Test Case Failed.")
+           firstCell.tap()
+       }
+    
+    func testImagesTableViewInteraction() {
+        let imagesTableView = app.tables[Constants.imageTableViewIndentifier]
+        XCTAssertTrue(imagesTableView.exists, "Images TableView Exists")
+        let imagesTableViewCells = imagesTableView.cells
+        if imagesTableViewCells.count > 0 {
+            let count: Int = (imagesTableViewCells.count - 1)
+            let promise = expectation(description: "Wait for table cells")
+            for i in stride(from: 0, to: count , by: 1) {
+                let imagesCell = imagesTableViewCells.element(boundBy: i)
+                XCTAssertTrue(imagesCell.exists, "\(i) cell exists")
+                imagesCell.tap()
+                if i == (count - 1) {
+                    promise.fulfill()
+                }
+            }
+            waitForExpectations(timeout: 10, handler: nil)
+            XCTAssertTrue(true, "All images cells exists")
+        }
+    }
+    
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
-    func testExample() {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
-        app.launch()
-
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testLaunchPerformance() {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTOSSignpostMetric.applicationLaunch]) {
-                XCUIApplication().launch()
-            }
-        }
-    }
+    
 }

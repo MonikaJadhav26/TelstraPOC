@@ -11,9 +11,12 @@ import UIKit
 
 extension UIImageView {
     
+    /// This method download and cache images from URL
+    /// - Parameters:
+    ///   - link: url to download image
     func downloaded(from link: String) {
         let imageCache = NSCache<NSString, UIImage>()
-        self.image = defaultImage
+        self.image = Constants.defaultImage
         let imageServerUrl = link.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         if let cachedImage = imageCache.object(forKey: NSString(string: imageServerUrl)) {
             self.image = cachedImage
@@ -23,7 +26,7 @@ extension UIImageView {
             URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
                 if error != nil {
                     DispatchQueue.main.async {
-                        self.image = defaultImage
+                        self.image = Constants.defaultImage
                     }
                     return
                 }

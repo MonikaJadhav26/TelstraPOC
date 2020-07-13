@@ -10,26 +10,38 @@ import Foundation
 
 class APICall : NSObject {
     
-    let url = "https:dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts.json"
     
-    func getImages(completion: @escaping (ImageModel?, Error?) -> Void) {
-        
-        guard let urlStr = URL.init(string: url) else { return }
-        URLSession.shared.dataTask(with: urlStr) { (data, response, error) in
-            if let err = error {
-                completion(nil, err)
-                print(err.localizedDescription)
-            } else {
-                guard let data = data else { return }
-                let jsonString = String(decoding: data, as: UTF8.self)
-                do {
-                    let results = try JSONDecoder().decode(ImageModel.self, from: jsonString.data(using: .utf8)!)
-                    completion(results, nil)
-                } catch {
-                    print(error.localizedDescription)
-                    completion(nil, error)
-                }
+    /// This method is to get Images Data
+    func getImages(completion: @escaping (Result<ImageModel, Error>) -> Void) {
+        getRequest(requestUrl: URL(string: Constants.ImagesURL.url)!, resultType: ImageModel.self) { result in
+            switch(result) {
+            case .success(let result):
+                completion(.success(result))
+            case .failure(let error):
+                completion(.failure(error))
             }
-        }.resume()
+        }
     }
+    
+    
+    //MARK: - API CLIENT
+       
+       private func getRequest<T: Decodable>(requestUrl: URL, resultType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+           URLSession.shared.dataTask(with: requestUrl) { (data, response, error) in
+               if let err = error {
+                   completion(.failure(err))
+                   print(err.localizedDescription)
+               } else {
+                   guard let data = data else { return }
+                   let jsonString = String(decoding: data, as: UTF8.self)
+                   do {
+                       let results = try JSONDecoder().decode(T.self, from: jsonString.data(using: .utf8)!)
+                       completion(.success(results))
+                   } catch {
+                       print(error.localizedDescription)
+                       completion(.failure(error))
+                   }
+               }
+               }.resume()
+       }
 }
